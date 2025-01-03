@@ -70,8 +70,6 @@ std::unordered_map<std::string, std::function<CommandResult(const std::vector<st
 };
 
 int main() {
-    SNBP::enableAnsiInConsole();
-
     clearTerminal();
     printStartupMessage();
 
@@ -139,16 +137,10 @@ void standardShellOutput(const std::string& content, const std::string& end, con
     std::cout << prefix << " >> " << content << end;
 }
 
-CommandResult exitCommand(const std::vector<std::string>& args) {
-    end_shell = true;
-    standardShellOutput("Exiting shell...");
-
-    return CR_SUCCESS;
-}
-
 #include "commands/echo_command.cpp"
 #include "commands/change_directory_command.cpp"
 #include "commands/clear_command.cpp"
 #include "commands/list_directory_command.cpp"
 #include "commands/create_directory_command.cpp"
 #include "commands/run_file_command.cpp"
+#include "commands/exit_command.cpp"
