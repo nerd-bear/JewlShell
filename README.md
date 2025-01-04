@@ -1,7 +1,47 @@
 # Squishy Shell (SQS)
 
-Welcome to the advanced integrated development shell named Squishy Shell, also known as SQS. The originals, such as but not limited to PowerShell, Windows Command Line, and the Linux Command Line, are very good. However, all of them lack modern features because they were designed for old computers.
+This is an Open Source project called SQS (Squishy Shell). The goal is to create a Shell that has the speed and good looks of Ghosty or Kitten but with new advanced integrated features. The originals, such as PowerShell, Windows Command Line, and Linux Command Line, are very good. However, they all lack modern features because they were designed for old computers. SQS is built to change that and bring the features that were missing all along. Normally these features require libraries or additional software.
 
-But SQS brings many new features and is designed for modern standards and computers. Some of these features are:
+## SQS Key Features:
+* HTTPS requests
+* Built-in SSH
+* Built-in text editors
+* Shortcuts, Custom GUI support
+* Custom embedded languages (and the compiler)
+* Package management API
+* Directory management
+* Built-in AI Chat-Bot (OpenAI integration)
+* Team sharing
+* Custom rsync version
+* Support for CLI Python 3.12 interpretation
+* Password brute force API
+* Binary hex file editor
+* Intermediate-level CLI game-engine API
+* Built-in LLVM/IR support
+* and even more
 
-HTTPS requests, Built-in SSH, Built-in text editors, Shortcuts, Custom GUI support, Custom embedded languages (and the compiler), Package management API, Directory management, Built-in AI Chat bot (OpenAI integration), Team sharing, Custom rsync version, Support for CLI Python 3.12 interpretation, Password brute force API, Binary hex file editor, Intermediate level CLI game-engine API, Built-in LLVM and IR support and even more!
+### Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Authors
+
+- **Nerd Bear** - *Initial work and maintenance* - [nerd-bear](https://github.com/nerd-bear)
+
+---
+
+<div align="center">
+  <strong>Made with :heart: by Nerd Bear</strong><br>
+  © 2024 Memo Bot. All rights reserved.
+</div>
