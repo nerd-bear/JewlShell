@@ -4,7 +4,9 @@
 #include <functional>
 #include <vector>
 #include <filesystem>
-#include <include/curl/curl.h>
+
+#include "include/asio.hpp"
+#include "include/asio/ssl.hpp>"
 
 #include "snbp.hpp"
 
@@ -38,6 +40,7 @@ CommandResult createDirectoryCommand(const std::vector<std::string>& args);
 CommandResult directoryListCommand(const std::vector<std::string>& args);
 CommandResult clearScreenCommand(const std::vector<std::string>& args);
 CommandResult runFileCommand(const std::vector<std::string>& args);
+CommandResult irhCommand(std::vector<std::string> &args);
 
 std::vector<std::string> current_path_fragments = {"C:", "WINDOWS", "system32"};
 
@@ -71,13 +74,6 @@ std::unordered_map<std::string, std::function<CommandResult(const std::vector<st
 };
 
 int main() {
-    CURL* curl;
-    CURLcode res;
-
-    curl_global_init(CURL_GLOBAL_ALL);
-
-    curl = curl_easy_init();
-
     clearTerminal();
     printStartupMessage();
 
@@ -145,6 +141,11 @@ void standardShellOutput(const std::string& content, const std::string& end, con
     std::cout << prefix << " >> " << content << end;
 }
 
+size_t writeFunction(void* ptr, size_t size, size_t nmemb, std::string* data) {
+    data->append((char*)ptr, size * nmemb);
+    return size * nmemb;
+}
+
 #include "commands/echo_command.cpp"
 #include "commands/change_directory_command.cpp"
 #include "commands/clear_command.cpp"
@@ -155,7 +156,6 @@ void standardShellOutput(const std::string& content, const std::string& end, con
 
 CommandResult irhCommand(std::vector<std::string> &args) {
     // Create Integrated Requests Handling Command
-
     // example: irh post https://exmaple.com/ -h {"header": "Content"}
 
     if (args.empty()) {
@@ -164,11 +164,6 @@ CommandResult irhCommand(std::vector<std::string> &args) {
 
     std::string request_type_str = args[0];
     std::string url = args[1];
-
-    std::unordered_map<std::string, CURLoption> request_type_map = {
-        {"post", CURLOPT_HTTPPOST},
-        {"get",  CURLOPT_HTTPGET}
-    };
     
     return CR_SUCCESS;
 }
