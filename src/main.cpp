@@ -4,6 +4,7 @@
 #include <functional>
 #include <vector>
 #include <filesystem>
+#include <include/curl/curl.h>
 
 #include "snbp.hpp"
 
@@ -70,6 +71,13 @@ std::unordered_map<std::string, std::function<CommandResult(const std::vector<st
 };
 
 int main() {
+    CURL* curl;
+    CURLcode res;
+
+    curl_global_init(CURL_GLOBAL_ALL);
+
+    curl = curl_easy_init();
+
     clearTerminal();
     printStartupMessage();
 
@@ -144,3 +152,23 @@ void standardShellOutput(const std::string& content, const std::string& end, con
 #include "commands/create_directory_command.cpp"
 #include "commands/run_file_command.cpp"
 #include "commands/exit_command.cpp"
+
+CommandResult irhCommand(std::vector<std::string> &args) {
+    // Create Integrated Requests Handling Command
+
+    // example: irh post https://exmaple.com/ -h {"header": "Content"}
+
+    if (args.empty()) {
+        return CR_MISSING_ARGUMENTS;
+    }
+
+    std::string request_type_str = args[0];
+    std::string url = args[1];
+
+    std::unordered_map<std::string, CURLoption> request_type_map = {
+        {"post", CURLOPT_HTTPPOST},
+        {"get",  CURLOPT_HTTPGET}
+    };
+    
+    return CR_SUCCESS;
+}
