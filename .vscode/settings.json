@@ -53,6 +53,7 @@
         "sstream": "cpp",
         "cinttypes": "cpp",
         "codecvt": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "*.ipp": "cpp"
     }
 }
