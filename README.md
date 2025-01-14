@@ -1,8 +1,8 @@
-# Squishy Shell (SQS)
+# Jewl Shell
 
-This is an Open Source project called SQS (Squishy Shell). The goal is to create a Shell that has the speed and good looks of Ghosty or Kitten but with new advanced integrated features. The originals, such as PowerShell, Windows Command Line, and Linux Command Line, are very good. However, they all lack modern features because they were designed for old computers. SQS is built to change that and bring the features that were missing all along. Normally these features require libraries or additional software.
+This is an Open Source project called Jewl Shell. The goal is to create a Shell that has the speed and good looks of Ghosty or Kitty but with new advanced integrated features. The originals, such as PowerShell, Windows Command Line, and Linux Command Line, are very good. However, they all lack modern features because they were designed for old computers. Jewl Shell is built to change that and bring the features that were missing all along. Normally these features require libraries or additional software.
 
-## SQS Key Features:
+## Key Features:
 * HTTPS requests
 * Built-in SSH
 * Built-in text editors
@@ -43,5 +43,5 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 <div align="center">
   <strong>Made with :heart: by Nerd Bear</strong><br>
-  © 2024 Memo Bot. All rights reserved.
+  © 2025 JewlShell Open Source.
 </div>

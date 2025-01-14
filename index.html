@@ -4,28 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nerd Bear | Repositories</title>
+    <title>Jewl Shell</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Open Graph Meta Tags (for Discord and other platforms) -->
-    <meta property="og:title" content="Nerd Bear | Repositories">
-    <meta property="og:description" content="I'm nerd-bear (Discord nerd.bear),
-    a 13-year-old programmer with a very large intrest in software development. I have been coding in python for the last 4 years and a half years and in C++ for the last 9 months.">
+    <meta property="og:title" content="Jewl Shell">
+    <meta property="og:description" content="The speed and good looks of Ghosty or Kitty but with new advanced integrated features.">
     <meta property="og:image" content="https://as2.ftcdn.net/v2/jpg/01/17/00/87/1000_F_117008730_0Dg5yniuxPQLz3shrJvLIeBsPfPRBSE1.jpg">
-    <meta property="og:url" content="https://nerd-bear.org">
+    <meta property="og:url" content="https://jewl.sh">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Include GitHub Octicons for the star icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.min.css">
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="366997812272-78sotam5od3c4qklk9lt0slvov3pv90u.apps.googleusercontent.com">
     <style>
         body {
             font-family: "Sour Gummy", sans-serif;
-            background: linear-gradient(135deg, #ffffd9, #d9fbff);
-            color: #2c3e50;
+            color: #fff;
         }
         /* Add this CSS for sticky footer */
         
@@ -40,204 +40,100 @@
             flex-direction: column;
         }
         
-        main {
-            flex-grow: 1;
+        .primary-text {
+            color: #fff;
         }
         
-        footer {
-            flex-shrink: 0;
+        .secondary-text {
+            color: #8899a6;
         }
         
-        .dark body {
-            background: linear-gradient(135deg, #1a1a1a, #2c3e50);
-            color: #ffffff;
+        .primary-bg {
+            background-color: #161b22;
         }
         
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .bento-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .bento-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .repo-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
-        }
-        
-        .repo-description {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        
-        .repo-stats {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #888;
-        }
-        
-        .repo-stats .stars,
-        .repo-stats .language {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .repo-stats .stars .octicon {
-            color: #fbbf24;
-            /* GitHub star icon color */
-        }
-        
-        .repo-stats .language img {
-            width: 20px;
-            height: 20px;
-        }
-        
-        .bento-card {
-            display: block;
-            /* Ensure the <a> tag behaves like a block element */
-            text-decoration: none;
-            /* Remove underline */
-            color: inherit;
-            /* Inherit text color */
-        }
-        
-        .bento-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            /* Ensure no underline on hover */
+        .seconday-bg {
+            background-color: #212529;
         }
     </style>
 </head>
 
-<body class="bg-[#ffffd9]">
-    <header id="header" class="slide-down py-3">
+<body class="bg-[#161b22]">
+    <header id="header" class="slide-down py-6">
         <a href="https://nerd-bear.org">
             <div class="container mx-auto px-4 text-center">
-                <h1 class="text-5xl font-bold mb-4 text-[#fac657] transition-colors duration-300">Nerd Bear | Repositories</h1>
+                <h1 class="text-5xl font-bold mb-4 transition-colors duration-300">Jewl Shell</h1>
             </div>
         </a>
     </header>
 
-    <nav id="nav" class="slide-left py-4 top-0 z-10">
-        <div class="container mx-auto px-4">
-            <ul class="flex flex relative justify-center space-x-6">
-                <li class="slide-down delay-100"><a href="https://nerd-bear.org/about" class="text-[#b58c65] hover:text-[#a25a32] transition-colors duration-300">About</a></li>
-                <li class="slide-down delay-200"><a href="https://nerd-bear.org/skills" class="text-[#b58c65] hover:text-[#a25a32] transition-colors duration-300">Skills</a></li>
-                <li class="slide-down delay-300"><a href="https://nerd-bear.org/projects" class="text-[#b58c65] hover:text-[#a25a32] transition-colors duration-300">Projects</a></li>
-                <li class="slide-down delay-400"><a href="https://nerd-bear.org/experience" class="text-[#b58c65] hover:text-[#a25a32] transition-colors duration-300">Experience</a></li>
-                <li class="slide-down delay-500"><a href="https://nerd-bear.org/contact" class="text-[#b58c65] hover:text-[#a25a32] transition-colors duration-300">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="container mx-auto px-4 py-12">
-        <section id="repositories" class="slide-left bg-[#d9fbff] rounded-lg shadow-lg p-8 mb-12 transition-colors duration-300">
-            <h2 class="slide-right text-3xl font-semibold mb-6 text-[#a25a32]">My Repositories</h2>
-            <div id="repo-list" class="bento-grid">
-                <!-- Repositories will be dynamically inserted here -->
+    <div class="container rounded-lg w-[80%] bg-[#2d2d2d] mx-auto shadow-lg border border-[#444] mt-8">
+        <div class="flex justify-between items-center p-2 bg-[#1e1e1e] rounded-t-lg">
+            <h3 class="ml-2 text-sm text-gray-300">Jewl Shell</h3>
+            <div class="flex gap-2 mr-2">
+                <span class="w-3 h-3 bg-[#00ca4e] rounded-full flex items-center justify-center text-[#00ca4e] text-xs hover:bg-[#00ca4e]/80 transition-colors cursor-pointer">□</span>
+                <span class="w-3 h-3 bg-[#ffbd44] rounded-full flex items-center justify-center text-[#ffbd44] text-xs hover:bg-[#ffbd44]/80 transition-colors cursor-pointer">-</span>
+                <span class="w-3 h-3 bg-[#ff605c] rounded-full flex items-center justify-center text-[#ff605c] text-xs hover:bg-[#ff605c]/80 transition-colors cursor-pointer">×</span>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <footer class="slide-up bg-[#d9fbff] text-[#b58c65] py-8 mt-12">
+        <div class="p-6 text-gray-300">
+            <p>Welcome to JewlShell!<br><br>Use help/h/info to get detailed information about commands and terminal structure.<br><br> C:/WINDOWS/system32 :
+                <span id="cursor" class="relative tracking-[-4px]">|||||||||||||||||</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 mt-10">
+        <h2 class="font-bold text-3xl">Get Started</h2>
+
+        <hr class="mt-4 mb-6 seconday-bg">
+
+        <h4 class="font-bold text-xl">What is Jewl Shell?</h4>
+        <p class="secondary-text mt-2">This is a shell that has the speed and good looks of Ghosty or Kitty but with new advanced integrated features. The originals, such as PowerShell, Windows Command Line, and Linux Command Line are very good. However, they all lack modern features
+            since they were designed for old computers. Jewl Shell is built to change that and bring the features that were missing all along. Normally this would require libraries or additional packages, but in Jewl Shell you can just enable and disable
+            these advaned features.</p>
+
+        <div class="flex gap-4 justify-center mt-8 mb-5">
+            <button onClick="downloadRedirect()" class="button border border-blue-500 p-4 rounded-lg hover:bg-blue-600/80 transition-colors">Download Latest</button>
+            <button onClick="docsRedirect()" class="button border p-4 rounded-lg hover:bg-gray-600/80 transition-colors">Documentation</button>
+        </div>
+    </div>
+
+    <footer class="mt-auto py-6 secondary-text bg-[#161b22] border-t border-[#444]">
         <div class="container mx-auto px-4 text-center">
-            <p class="transition-colors duration-300">&copy; 2024 nerd-bear. All rights reserved.</p>
+            <p>&copy; 2025 JewlShell Open Source.</p>
         </div>
     </footer>
 
     <script>
-        const owner = "nerd-bear"; // Replace with your GitHub username
-        const repoList = document.getElementById("repo-list");
-
-        // Function to get the language icon URL dynamically
-        function getLanguageIcon(language) {
-            if (!language) return "https://skillicons.dev/icons?i=generic"; // Fallback for unknown languages
-            return `https://skillicons.dev/icons?i=${language.toLowerCase()}`;
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        async function fetchRepositories() {
-            const url = `https://api.github.com/users/${owner}/repos`;
+        let cursor_visible = true;
 
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const repos = await response.json();
-
-                // Clear existing content
-                repoList.innerHTML = "";
-
-                // Loop through repositories and create cards
-                repos.forEach(repo => {
-                    const repoCard = document.createElement("a"); // Use <a> tag for the card
-                    repoCard.className = "bento-card";
-                    repoCard.href = repo.html_url; // Link to the repository
-                    repoCard.target = "_blank"; // Open in a new tab
-                    repoCard.style.textDecoration = "none"; // Remove underline
-                    repoCard.style.color = "inherit"; // Inherit text color
-
-                    const title = document.createElement("div");
-                    title.className = "repo-title";
-                    title.textContent = repo.name;
-
-                    const description = document.createElement("div");
-                    description.className = "repo-description";
-                    description.textContent = repo.description || "No description provided.";
-
-                    const stats = document.createElement("div");
-                    stats.className = "repo-stats";
-
-                    // Stars
-                    const stars = document.createElement("div");
-                    stars.className = "stars";
-                    stars.innerHTML = `<span class="octicon octicon-star"></span> ${repo.stargazers_count}`;
-
-                    // Language
-                    const language = document.createElement("div");
-                    language.className = "language";
-                    language.innerHTML = `<img src="${getLanguageIcon(repo.language)}" alt="${repo.language || 'Unknown'}"> ${repo.language || "Not specified"}`;
-
-                    stats.appendChild(stars);
-                    stats.appendChild(language);
-
-                    repoCard.appendChild(title);
-                    repoCard.appendChild(description);
-                    repoCard.appendChild(stats);
-
-                    repoList.appendChild(repoCard);
-                });
-            } catch (error) {
-                console.error("Error fetching repositories:", error);
-                repoList.innerHTML = `<p class="text-red-500">Error fetching repositories. Please try again later.</p>`;
+        setInterval(() => {
+            const cursor = document.getElementById('cursor');
+            if (cursor_visible) {
+                cursor.textContent = " ";
+                cursor_visible = false;
+            } else {
+                cursor.textContent = "|||||||||||||||||";
+                cursor_visible = true;
             }
+        }, 500);
+
+        function docsRedirect() {
+            window.location.href = 'https://jewl.sh/docs';
         }
 
-        // Fetch repositories when the page loads
-        fetchRepositories();
+        function downloadRedirect() {
+            window.location.href = 'https://jewl.sh/download';
+        }
     </script>
+
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </body>
 
 </html>
