@@ -6,9 +6,6 @@
 #include <filesystem>
 #include <cstdlib>
 
-#include <asio.hpp>
-#include <asio/ssl.hpp>
-
 #include <boost/algorithm/string.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
