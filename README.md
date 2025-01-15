@@ -4,7 +4,7 @@ This is an Open Source project called Jewl Shell. The goal is to create a Shell 
 
 ## Key Features
 
-✅ HTTPS requests
+✅ HTTPS requests\n
 
 ✅ Directory management
 
