@@ -4,36 +4,22 @@ This is an Open Source project called Jewl Shell. The goal is to create a Shell 
 
 ## Key Features
 
-✅ HTTPS requests\n
-
-✅ Directory management
-
-❌ Built-in SSH
-
-❌ Built-in text editors
-
-❌ Shortcuts, Custom GUI support
-
-❌ Custom embedded languages (and the compiler)
-
-❌ Package management API
-
-❌ Built-in AI Chat-Bot (OpenAI integration)
-
-❌ Team sharing
-
-❌ Custom rsync version
-
-❌ Support for CLI Python 3.12 interpretation
-
-❌ Password brute force API
-
-❌ Binary hex file editor
-
-❌ Intermediate-level CLI game-engine API
-
-❌ Built-in LLVM/IR support
-❌ and even more
+* HTTPS requests
+* Built-in SSH
+* Built-in text editors
+* Shortcuts, Custom GUI support
+* Custom embedded languages (and the compiler)
+* Package management API
+* Directory management
+* Built-in AI Chat-Bot (OpenAI integration)
+* Team sharing
+* Custom rsync version
+* Support for CLI Python 3.12 interpretation
+* Password brute force API
+* Binary hex file editor
+* Intermediate-level CLI game-engine API
+* Built-in LLVM/IR support
+* and even more
 
 ### Contributing
 
@@ -53,7 +39,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## Authors
 
-- **Nerd Bear** - *Initial work and maintenance* - [nerd-bear](https://github.com/nerd-bear)
+* **Nerd Bear** - *Initial work and maintenance* - [nerd-bear](https://github.com/nerd-bear)
 
 ---
 
