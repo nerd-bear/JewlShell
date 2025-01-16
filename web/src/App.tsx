@@ -1,7 +1,7 @@
 import TerminalWindow from './components/TerminalWindow';
 import Footer from './components/Footer';
 import NavButtons from './components/NavButtons';
-import WhatIsJSH from './components/whatIsJSH';
+import WhatIsJSH from './components/WhatIsJSH';
 
 function App() {
   return (
@@ -16,9 +16,9 @@ function App() {
 
       <TerminalWindow />
 
-      <main className="container mx-auto px-4 mt-10">
-        <h2 className="font-bold text-3xl text-white">Get Started</h2>
-        <hr className="mt-4 mb-6 border-gray-800" />
+      <main className="container mx-auto px-4 mt-10 bg-[#161b22]">
+        <h2 className="font-bold text-3xl text-white bg-[#161b22]">Get Started</h2>
+        <hr className="mt-4 mb-6 border-gray-800 bg-[#161b22]" />
         <WhatIsJSH />
 
         <NavButtons/>
