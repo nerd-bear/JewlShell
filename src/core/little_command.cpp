@@ -1,4 +1,4 @@
-CommandResult littleCommand(const std::vector<std::string> &args) // EASTER EGG COMMAND
+CommandResult littleCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags) // EASTER EGG COMMAND
 {
     standardShellOutput("Britain?");
     standardShellOutput("Little Britain?");

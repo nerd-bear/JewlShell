@@ -1,5 +1,7 @@
-CommandResult irhCommand(const std::vector<std::string>& args) {
-    if (args.size() < 4) {
+CommandResult irhCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags)
+{
+    if (args.size() < 4)
+    {
         return CR_MISSING_ARGUMENTS;
     }
 
@@ -11,15 +13,21 @@ CommandResult irhCommand(const std::vector<std::string>& args) {
     boost::to_upper(request_type_str);
 
     boost::beast::http::verb request_type;
-    if (request_type_str == "GET") {
+    if (request_type_str == "GET")
+    {
         request_type = boost::beast::http::verb::get;
-    } else if (request_type_str == "POST") {
+    }
+    else if (request_type_str == "POST")
+    {
         request_type = boost::beast::http::verb::post;
-    } else {
+    }
+    else
+    {
         return CR_WRONG_ARGUMENTS;
     }
 
-    try {
+    try
+    {
         boost::asio::io_context ioc;
 
         boost::asio::ip::tcp::resolver resolver(ioc);
@@ -41,13 +49,15 @@ CommandResult irhCommand(const std::vector<std::string>& args) {
         boost::beast::error_code ec;
         stream.socket().shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
 
-        if (ec && ec != boost::beast::errc::not_connected) {
+        if (ec && ec != boost::beast::errc::not_connected)
+        {
             throw boost::beast::system_error{ec};
         }
 
         standardShellOutput(response);
-
-    } catch (std::exception const& e) {
+    }
+    catch (std::exception const &e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
         return CR_ERROR;
     }

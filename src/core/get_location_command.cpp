@@ -1,4 +1,4 @@
-CommandResult getLocationCommand(const std::vector<std::string> &args)
+CommandResult getLocationCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags)
 {
     std::string location = getPathAsString();
     std::string formatedLocation = location;
