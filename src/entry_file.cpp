@@ -94,6 +94,11 @@ std::string getOsPlatformName()
     return "Unsupported OS";
 }
 
+void setConsoleTitle(const std::string title)
+{
+    SetConsoleTitleA(title.c_str());
+}
+
 bool end_shell = false;
 std::unordered_map<std::string, std::function<CommandResult(const std::vector<std::string> &)>> command_map = {
     {"echo", echoCommand},
@@ -108,7 +113,7 @@ std::unordered_map<std::string, std::function<CommandResult(const std::vector<st
 int main()
 {
     setPathFromString(getDefaultPath());
-
+    setConsoleTitle("Jewl Shell");
     clearTerminal();
     printStartupMessage();
 
