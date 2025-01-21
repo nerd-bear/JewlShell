@@ -51,9 +51,7 @@ CommandResult getLocationCommand(const std::vector<std::string> &, const std::ve
 CommandResult littleCommand(const std::vector<std::string> &, const std::vector<std::string> &flags); // EASTER EGG COMMAND
 CommandResult ipconfigCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
 
-std::vector<std::string> current_path_fragments = {"C:",
-                                                   "WINDOWS",
-                                                   "system32"};
+std::vector<std::string> current_path_fragments;
 
 std::string getPathAsString()
 {
@@ -244,6 +242,7 @@ CommandResult ipconfigCommand(const std::vector<std::string> &args, const std::v
             std::cout << "IP Address: " << endpoint.endpoint().address().to_string() << std::endl;
         }
     }
+
     catch (std::exception &e)
     {
         return CR_ERROR;

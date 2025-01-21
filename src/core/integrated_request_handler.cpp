@@ -13,6 +13,7 @@ CommandResult irhCommand(const std::vector<std::string> &args, const std::vector
     boost::to_upper(request_type_str);
 
     boost::beast::http::verb request_type;
+
     if (request_type_str == "GET")
     {
         request_type = boost::beast::http::verb::get;
@@ -20,6 +21,30 @@ CommandResult irhCommand(const std::vector<std::string> &args, const std::vector
     else if (request_type_str == "POST")
     {
         request_type = boost::beast::http::verb::post;
+    }
+    else if (request_type_str == "PUT")
+    {
+        request_type = boost::beast::http::verb::put;
+    }
+    else if (request_type_str == "DELETE")
+    {
+        request_type = boost::beast::http::verb::delete_;
+    }
+    else if (request_type_str == "HEAD")
+    {
+        request_type = boost::beast::http::verb::head;
+    }
+    else if (request_type_str == "OPTIONS")
+    {
+        request_type = boost::beast::http::verb::options;
+    }
+    else if (request_type_str == "TRACE")
+    {
+        request_type = boost::beast::http::verb::trace;
+    }
+    else if (request_type_str == "CONNECT")
+    {
+        request_type = boost::beast::http::verb::connect;
     }
     else
     {
