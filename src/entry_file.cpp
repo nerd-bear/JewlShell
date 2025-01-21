@@ -191,3 +191,4 @@ void standardShellOutput(const auto &content, const std::string &end, const std:
 #include "core/run_file_command.cpp"
 #include "core/exit_command.cpp"
 #include "core/integrated_request_handler.cpp"
+#include "core/operating_system_command.cpp"
