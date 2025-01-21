@@ -96,6 +96,8 @@ std::string getOsPlatformName()
 
 void setConsoleTitle(const std::string title)
 {
+#warning This function will need to be updated once a proper GUI implementation is available.
+
     SetConsoleTitleA(title.c_str());
 }
 
