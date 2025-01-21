@@ -46,8 +46,14 @@ CommandResult directoryListCommand(const std::vector<std::string> &args);
 CommandResult clearScreenCommand(const std::vector<std::string> &args);
 CommandResult runFileCommand(const std::vector<std::string> &args);
 CommandResult irhCommand(const std::vector<std::string> &args);
+CommandResult operatingSystemCommand(const std::vector<std::string> &args);
+CommandResult getLocationCommand(const std::vector<std::string> &args);
+CommandResult littleCommand(const std::vector<std::string> &args); // EASTER EGG COMMAND
+CommandResult ipconfigCommand(const std::vector<std::string> &args);
 
-std::vector<std::string> current_path_fragments = {"C:", "WINDOWS", "system32"};
+std::vector<std::string> current_path_fragments = {"C:",
+                                                   "WINDOWS",
+                                                   "system32"};
 
 std::string getPathAsString()
 {
@@ -110,7 +116,11 @@ std::unordered_map<std::string, std::function<CommandResult(const std::vector<st
     {"ls", directoryListCommand},
     {"clear", clearScreenCommand},
     {"rf", runFileCommand},
-    {"irh", irhCommand}};
+    {"irh", irhCommand},
+    {"os", operatingSystemCommand},
+    {"pwd", getLocationCommand},
+    {"ipconfig", ipconfigCommand},
+};
 
 int main()
 {
@@ -199,3 +209,31 @@ void standardShellOutput(const auto &content, const std::string &end, const std:
 #include "core/exit_command.cpp"
 #include "core/integrated_request_handler.cpp"
 #include "core/operating_system_command.cpp"
+#include "core/get_location_command.cpp"
+#include "core/little_command.cpp"
+
+CommandResult ipconfigCommand(const std::vector<std::string> &args)
+{
+    try
+    {
+        boost::asio::io_context io_context;
+
+        char hostname[256];
+        gethostname(hostname, sizeof(hostname));
+
+        boost::asio::ip::tcp::tcp::resolver resolver(io_context);
+
+        auto endpoints = resolver.resolve(hostname, "");
+
+        for (const auto &endpoint : endpoints)
+        {
+            std::cout << "IP Address: " << endpoint.endpoint().address().to_string() << std::endl;
+        }
+    }
+    catch (std::exception &e)
+    {
+        return CR_ERROR;
+    }
+
+    return CR_SUCCESS;
+}

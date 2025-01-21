@@ -78,6 +78,7 @@
         "typeindex": "cpp",
         "variant": "cpp",
         "qpushbutton": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "strstream": "cpp"
     }
 }
