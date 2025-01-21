@@ -19,8 +19,6 @@
  * @see SNBP.h
  */
 
-#include "C:/coding-projects/CPP-Dev/bassil/src/headers/SNBP.h"
-
 #include <algorithm>
 #include <stdexcept>
 #include <fstream>
