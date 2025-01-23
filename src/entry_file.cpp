@@ -17,47 +17,10 @@ const char PATH_DELIMITER = ':';
 const std::string CLI_PREFIX_DELIMITER = ":";
 const std::string SHELL_PREFIX = "SSO";
 
-enum CommandResult
-{
-    CR_SUCCESS,
-    CR_WRONG_ARGUMENTS,
-    CR_MISSING_ARGUMENTS,
-    CR_UNKNOWN,
-    CR_ERROR
-};
-
-std::unordered_map<CommandResult, std::string> CommandResultNames = {
-    {CR_SUCCESS, "CR_SUCCESS"},
-    {CR_WRONG_ARGUMENTS, "CR_WRONG_ARGUMENTS"},
-    {CR_MISSING_ARGUMENTS, "CR_MISSING_ARGUMENTS"},
-    {CR_UNKNOWN, "CR_UNKNOWN"},
-    {CR_ERROR, "CR_ERROR"}};
-
 void printStartupMessage();
 void clearTerminal();
 void standardShellOutput(const std::string &content, const std::string &end = "\n", const std::string &prefix = SHELL_PREFIX);
 std::string getDefaultPath();
-
-std::vector<std::string> current_path_fragments;
-
-std::string getPathAsString()
-{
-    if (current_path_fragments.empty())
-    {
-        return "";
-    }
-
-    std::string _path;
-
-    for (const auto &path_fragment : current_path_fragments)
-    {
-        _path = _path + "/" + path_fragment;
-    }
-
-    _path.erase(0, 1);
-
-    return _path;
-}
 
 std::string getDefaultPath()
 {
@@ -93,7 +56,25 @@ void setConsoleTitle(const std::string title)
 #endif
 }
 
-bool end_shell = false;
+int executeFile(const std::string path)
+{
+#ifdef _WIN32
+#include <windows.h>
+
+    STARTUPINFO info = {sizeof(info)};
+    PROCESS_INFORMATION processInfo;
+    if (CreateProcess(path, cmd, NULL, NULL, TRUE, 0, NULL, NULL, &info, &processInfo))
+        ;
+    {
+        WaitForSingleObject(processInfo.hProcess, INFINITE);
+        CloseHandle(processInfo.hProcess);
+        CloseHandle(processInfo.hThread);
+    }
+#else
+    // Linux/macOS: Use ANSI escape codes to set terminal title
+    std::cout << "\033]0;" << title << "\007";
+#endif
+}
 
 std::vector<std::string> getSystemPathDirectories()
 {
@@ -157,7 +138,6 @@ std::string findCommandPath(const std::string &command_name)
         }
     }
 
-    // Check the current directory
     std::filesystem::path current_dir = std::filesystem::current_path();
     for (const auto &entry : std::filesystem::directory_iterator(current_dir))
     {
@@ -169,6 +149,8 @@ std::string findCommandPath(const std::string &command_name)
 
     return "";
 }
+
+bool end_shell = false;
 
 int main()
 {
