@@ -1,19 +1,18 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include <functional>
 #include <vector>
 #include <filesystem>
 #include <cstdlib>
+#include <algorithm>
 
 #include <boost/algorithm/string.hpp>
-#include <boost/beast/core.hpp>
-#include <boost/beast/http.hpp>
-#include <boost/beast/version.hpp>
-#include <boost/asio/connect.hpp>
-#include <boost/asio/ip/tcp.hpp>
 
-#include "snbp.hpp"
+#ifdef _WIN32
+const char PATH_DELIMITER = ';';
+#else
+const char PATH_DELIMITER = ':';
+#endif
 
 const std::string CLI_PREFIX_DELIMITER = ":";
 const std::string SHELL_PREFIX = "SSO";
@@ -36,25 +35,18 @@ std::unordered_map<CommandResult, std::string> CommandResultNames = {
 
 void printStartupMessage();
 void clearTerminal();
-void standardShellOutput(const auto &content, const std::string &end = "\n", const std::string &prefix = SHELL_PREFIX);
+void standardShellOutput(const std::string &content, const std::string &end = "\n", const std::string &prefix = SHELL_PREFIX);
 std::string getDefaultPath();
-CommandResult echoCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult exitCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult changeDirectoryCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult createDirectoryCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult directoryListCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult clearScreenCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult runFileCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult irhCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult operatingSystemCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
-CommandResult getLocationCommand(const std::vector<std::string> &, const std::vector<std::string> &flags);
-CommandResult littleCommand(const std::vector<std::string> &, const std::vector<std::string> &flags); // EASTER EGG COMMAND
-CommandResult ipconfigCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags);
 
 std::vector<std::string> current_path_fragments;
 
 std::string getPathAsString()
 {
+    if (current_path_fragments.empty())
+    {
+        return "";
+    }
+
     std::string _path;
 
     for (const auto &path_fragment : current_path_fragments)
@@ -67,62 +59,120 @@ std::string getPathAsString()
     return _path;
 }
 
-void setPathFromString(const std::string &path)
-{
-    std::vector<std::string> split_path = SNBP::splitString(path, "/");
-
-    current_path_fragments = split_path;
-}
-
 std::string getDefaultPath()
 {
-#ifdef WIN32
+#ifdef _WIN32
     return "C:/";
 #elif defined(__unix__) || defined(__gnu_linux__) || defined(__linux__)
     return "/usr/";
 #endif
 
-    std::cout << "Unsupported OS" << std::endl;
+    std::cout << "getDefaultPath() Unsupported OS" << std::endl;
     exit(-1);
     return "";
 }
 
 std::string getOsPlatformName()
 {
-#ifdef WIN32
+#ifdef _WIN32
     return "windows";
 #elif defined(__unix__) || defined(__gnu_linux__) || defined(__linux__)
     return "linux";
 #endif
 
-    return "Unsupported OS";
+    return "getOsPlatformName() Unsupported OS";
 }
 
 void setConsoleTitle(const std::string title)
 {
-#warning This function will need to be updated once a proper GUI implementation is available.
-
-    SetConsoleTitleA(title.c_str());
+#ifdef _WIN32
+    // SetConsoleTitleA(title.c_str());
+#else
+    // Linux/macOS: Use ANSI escape codes to set terminal title
+    std::cout << "\033]0;" << title << "\007";
+#endif
 }
 
 bool end_shell = false;
-std::unordered_map<std::string, std::function<CommandResult(const std::vector<std::string> &, const std::vector<std::string> &)>> command_map = {
-    {"echo", echoCommand},
-    {"exit", exitCommand},
-    {"cd", changeDirectoryCommand},
-    {"mkdir", createDirectoryCommand},
-    {"ls", directoryListCommand},
-    {"clear", clearScreenCommand},
-    {"rf", runFileCommand},
-    {"irh", irhCommand},
-    {"os", operatingSystemCommand},
-    {"pwd", getLocationCommand},
-    {"ipconfig", ipconfigCommand},
-    {"little", littleCommand}};
+
+std::vector<std::string> getSystemPathDirectories()
+{
+    std::vector<std::string> directories;
+
+    const char *pathEnv = std::getenv("PATH");
+    if (!pathEnv)
+    {
+        std::cerr << "PATH environment variable not found!" << std::endl;
+        return directories;
+    }
+
+    std::stringstream pathStream(pathEnv);
+    std::string dir;
+    while (std::getline(pathStream, dir, PATH_DELIMITER))
+    {
+        if (!dir.empty())
+        {
+            directories.push_back(dir);
+        }
+    }
+
+    return directories;
+}
+
+std::vector<std::string> getPathsOfFilesOfDirectory(std::string path)
+{
+    std::vector<std::string> directories;
+
+    std::stringstream pathStream(path);
+    std::string dir;
+    while (std::getline(pathStream, dir, PATH_DELIMITER))
+    {
+        if (!dir.empty())
+        {
+            directories.push_back(dir);
+        }
+    }
+
+    return directories;
+}
+
+std::string findCommandPath(const std::string &command_name)
+{
+    std::vector<std::string> pathDirs = getSystemPathDirectories();
+
+    for (const auto &dir : pathDirs)
+    {
+        std::filesystem::path dir_path(dir);
+        if (!std::filesystem::exists(dir_path) || !std::filesystem::is_directory(dir_path))
+        {
+            continue;
+        }
+
+        for (const auto &entry : std::filesystem::directory_iterator(dir_path))
+        {
+            if (entry.is_regular_file() && entry.path().filename() == command_name)
+            {
+                return entry.path().string();
+            }
+        }
+    }
+
+    // Check the current directory
+    std::filesystem::path current_dir = std::filesystem::current_path();
+    for (const auto &entry : std::filesystem::directory_iterator(current_dir))
+    {
+        if (entry.is_regular_file() && entry.path().filename() == command_name)
+        {
+            return entry.path().string();
+        }
+    }
+
+    return "";
+}
 
 int main()
 {
-    setPathFromString(getDefaultPath());
+    std::filesystem::current_path(getDefaultPath());
     setConsoleTitle("Jewl Shell");
     clearTerminal();
     printStartupMessage();
@@ -130,51 +180,62 @@ int main()
     while (!end_shell)
     {
         std::string input;
-        std::cout << getPathAsString() << " " << CLI_PREFIX_DELIMITER << " ";
+
+        std::string coutPath = std::filesystem::current_path().string();
+        boost::replace_all(coutPath, "\\", "/");
+
+        std::cout << coutPath << " " << CLI_PREFIX_DELIMITER << " ";
         std::getline(std::cin, input);
 
-        input = SNBP::trim(input);
+        boost::trim(input);
 
-        std::vector<std::string> split_input = SNBP::splitString(input, " ");
-        std::vector<std::string> command_flags;
-
-        for (int i = 0; i < split_input.size(); i++)
-        {
-            if (split_input[i][0] == '-')
-            {
-                command_flags.push_back(split_input[i]);
-                split_input.erase(split_input.begin() + i);
-                i--;
-            }
-        }
-
-        if (split_input.empty())
+        if (input.empty())
         {
             continue;
         }
+
+        std::vector<std::string> split_input;
+        boost::split(split_input, input, boost::is_any_of(" "));
 
         std::string command_name = split_input[0];
         std::vector<std::string> args(split_input.begin() + 1, split_input.end());
 
-        if (input == "")
+        if (command_name == "exit" || command_name == "quit")
         {
+            end_shell = true;
             continue;
         }
 
-        if (command_map.find(command_name) == command_map.end())
+        else if (command_name == "cd")
         {
-            standardShellOutput("ERROR \"" + command_name + "\" is not a executable file, custom script or command! Please check your spelling or if the module that the command may originate from is enabled");
+            if (args.size() == 1)
+            {
+                std::filesystem::current_path(split_input[1]);
+            }
+
             continue;
         }
 
-        CommandResult result = command_map[command_name](args, command_flags);
+        std::string command_path = findCommandPath(command_name);
 
-        if (result != CR_SUCCESS)
+        if (!command_path.empty())
         {
-            standardShellOutput("Command \"" + command_name + "\" failed with error code " + std::to_string(result) + "(" + CommandResultNames[result] + ")");
-        }
+            std::string args_string;
+            for (const std::string &arg : args)
+            {
+                args_string += " " + arg;
+            }
 
-        std::cin.clear();
+            int result = std::system((command_path + args_string).c_str());
+            if (result != 0)
+            {
+                standardShellOutput("Command execution failed with code: " + std::to_string(result));
+            }
+        }
+        else
+        {
+            standardShellOutput("Command not found in PATH: " + command_name);
+        }
     }
 
     return 0;
@@ -198,55 +259,14 @@ Github: https://github.com/nerd-bear Discord: nerd.bear\n\
 
 void clearTerminal()
 {
-#warning This function will need to be updated once a proper GUI implementation is available.
-
-#if defined _WIN32
+#ifdef _WIN32
     std::system("cls");
-#elif defined(__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+#else
     std::system("clear");
 #endif
 }
 
-void standardShellOutput(const auto &content, const std::string &end, const std::string &prefix)
+void standardShellOutput(const std::string &content, const std::string &end, const std::string &prefix)
 {
     std::cout << prefix << " >> " << content << end;
-}
-
-#include "core/echo_command.cpp"
-#include "core/change_directory_command.cpp"
-#include "core/clear_command.cpp"
-#include "core/list_directory_command.cpp"
-#include "core/create_directory_command.cpp"
-#include "core/run_file_command.cpp"
-#include "core/exit_command.cpp"
-#include "core/integrated_request_handler.cpp"
-#include "core/operating_system_command.cpp"
-#include "core/get_location_command.cpp"
-#include "core/little_command.cpp"
-
-CommandResult ipconfigCommand(const std::vector<std::string> &args, const std::vector<std::string> &flags)
-{
-    try
-    {
-        boost::asio::io_context io_context;
-
-        char hostname[256];
-        gethostname(hostname, sizeof(hostname));
-
-        boost::asio::ip::tcp::tcp::resolver resolver(io_context);
-
-        auto endpoints = resolver.resolve(hostname, "");
-
-        for (const auto &endpoint : endpoints)
-        {
-            std::cout << "IP Address: " << endpoint.endpoint().address().to_string() << std::endl;
-        }
-    }
-
-    catch (std::exception &e)
-    {
-        return CR_ERROR;
-    }
-
-    return CR_SUCCESS;
 }

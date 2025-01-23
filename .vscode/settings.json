@@ -79,6 +79,7 @@
         "variant": "cpp",
         "qpushbutton": "cpp",
         "stdfloat": "cpp",
-        "strstream": "cpp"
+        "strstream": "cpp",
+        "filesystem": "cpp"
     }
 }
