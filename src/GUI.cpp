@@ -63,7 +63,7 @@ public:
         setLayout(layout);
 
         // Set window properties
-        setWindowTitle("Jewl Shell");
+        setWindowTitle("Jewel Shell");
         setGeometry(100, 100, 600, 400);
     }
 

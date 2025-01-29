@@ -1,6 +1,6 @@
-# Welcome  to JewlShell
+# Welcome  to JewelShell
 
-Jewl shell is a program built to be a more modern shell for both linux and windows. The way it achives this is by using a modern GUI library, optimized path finding and searching, and finaly super advaned and low level functionality that the standard shells are missing.
+Jewel Shell is a program built to be a more modern shell for both linux and windows. The way it achives this is by using a modern GUI library, optimized path finding and searching, and finaly super advaned and low level functionality that the standard shells are missing.
 
 ## Features
 
@@ -12,4 +12,4 @@ Jewl shell is a program built to be a more modern shell for both linux and windo
 
 ## Lanugage
 
-JewlShell is Built in C++ using the G++ compiler. The main part of the project is built in C++ while a small part is made in C.
+JewelShell is Built in C++ using the G++ compiler. The main part of the project is built in C++ while a small part is made in C.

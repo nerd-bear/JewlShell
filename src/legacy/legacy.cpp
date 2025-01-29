@@ -123,7 +123,7 @@ std::unordered_map<std::string, std::function<CommandResult(const std::vector<st
 int main()
 {
     setPathFromString(getDefaultPath());
-    setConsoleTitle("Jewl Shell");
+    setConsoleTitle("Jewel Shell");
     clearTerminal();
     printStartupMessage();
 
@@ -183,7 +183,7 @@ int main()
 void printStartupMessage()
 {
     std::cout << "--------------------------------------------------------------------------------------------------------\n\
-Welcome to JewlShell ("
+Welcome to JewelShell ("
               << char(std::toupper(getOsPlatformName()[0])) << getOsPlatformName().erase(0, 1) << ")\n\
 \n\
 \n\

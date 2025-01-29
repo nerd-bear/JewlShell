@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/process.hpp>
 
 #ifdef _WIN32
 const char PATH_DELIMITER = ';';
@@ -56,24 +57,13 @@ void setConsoleTitle(const std::string title)
 #endif
 }
 
-int executeFile(const std::string path)
+int execute(const std::string &path, const std::vector<std::string> &args)
 {
-#ifdef _WIN32
-#include <windows.h>
+    boost::process::child child_processes(path, args);
 
-    STARTUPINFO info = {sizeof(info)};
-    PROCESS_INFORMATION processInfo;
-    if (CreateProcess(path, cmd, NULL, NULL, TRUE, 0, NULL, NULL, &info, &processInfo))
-        ;
-    {
-        WaitForSingleObject(processInfo.hProcess, INFINITE);
-        CloseHandle(processInfo.hProcess);
-        CloseHandle(processInfo.hThread);
-    }
-#else
-    // Linux/macOS: Use ANSI escape codes to set terminal title
-    std::cout << "\033]0;" << title << "\007";
-#endif
+    child_processes.wait();
+
+    return child_processes.exit_code();
 }
 
 std::vector<std::string> getSystemPathDirectories()
@@ -155,7 +145,7 @@ bool end_shell = false;
 int main()
 {
     std::filesystem::current_path(getDefaultPath());
-    setConsoleTitle("Jewl Shell");
+    setConsoleTitle("Jewel Shell");
     clearTerminal();
     printStartupMessage();
 
@@ -190,9 +180,13 @@ int main()
 
         else if (command_name == "cd")
         {
-            if (args.size() == 1)
+            if (args.size() >= 1)
             {
                 std::filesystem::current_path(split_input[1]);
+            }
+            else
+            {
+                std::filesystem::current_path(getDefaultPath());
             }
 
             continue;
@@ -202,13 +196,7 @@ int main()
 
         if (!command_path.empty())
         {
-            std::string args_string;
-            for (const std::string &arg : args)
-            {
-                args_string += " " + arg;
-            }
-
-            int result = std::system((command_path + args_string).c_str());
+            int result = execute(command_path, args);
             if (result != 0)
             {
                 standardShellOutput("Command execution failed with code: " + std::to_string(result));
@@ -226,7 +214,7 @@ int main()
 void printStartupMessage()
 {
     std::cout << "--------------------------------------------------------------------------------------------------------\n\
-Welcome to JewlShell ("
+Welcome to JewelShell ("
               << char(std::toupper(getOsPlatformName()[0])) << getOsPlatformName().erase(0, 1) << ")\n\
 \n\
 \n\
